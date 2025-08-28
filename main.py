@@ -323,45 +323,40 @@ if st.button("✨ Extract Information"):
             print("[LOG] Attempting to parse API response as JSON...")
             try:
                 json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+        
                 if json_match:
                     json_str = json_match.group(0)
                     data = json.loads(json_str)
                 
-                print("✅ [LOG] JSON parsing successful. Displaying results.")
-                st.success("✅ Extraction Complete!")
-                
-                # --- DISPLAY TIMER ---
-                st.info(f"⏱️ **Processing Time:** {elapsed_time:.2f} seconds")
-                
-                # Display the beautiful formatted data
-                display_awb_data(data)
-                
-                # Optional: Show raw JSON if requested
-                if show_raw_json:
-                    st.markdown("---")
-                    st.markdown("### 🔍 Raw JSON Data")
-                    with st.expander("Click to view raw JSON"):
-                        st.json(data)
-                
-                # Optional: Provide download button for JSON
-                if download_json:
-                    st.markdown("---")
-                    json_str = json.dumps(data, indent=2)
-                    st.download_button(
-                        label="📥 Download JSON Data",
-                        data=json_str,
-                        file_name=f"awb_data_{data.get('Air Waybill Number', 'unknown')}.json",
-                        mime="application/json"
-                    )
+                    print("✅ [LOG] JSON parsing successful. Displaying results.")
+                    st.success("✅ Extraction Complete!")
+                    st.info(f"⏱️ **Processing Time:** {elapsed_time:.2f} seconds")
                     
-            except json.JSONDecodeError:
-                print("❌ [ERROR] Failed to parse the response as JSON.")
-                st.error("Failed to parse the response as JSON. The model may have returned an error or malformed text.")
-                
-                # --- DISPLAY TIMER ---
-                st.info(f"⏱️ **Attempted in:** {elapsed_time:.2f} seconds")
-                
-                st.text_area("Raw Model Response", response_text, height=200)
+                    # --- All code that uses 'data' is now inside this 'if' block ---
+                    display_awb_data(data)
+                    
+                    if show_raw_json:
+                        st.markdown("---")
+                        st.markdown("### 🔍 Raw JSON Data")
+                        with st.expander("Click to view raw JSON"):
+                            st.json(data)
+                    
+                    if download_json:
+                        st.markdown("---")
+                        json_str_for_download = json.dumps(data, indent=2)
+                        st.download_button(
+                            label="📥 Download JSON Data",
+                            data=json_str_for_download,
+                            file_name=f"awb_data_{data.get('Air Waybill Number', 'unknown')}.json",
+                            mime="application/json"
+                        )
+                    
+                    else:
+                        # Handle the case where the regex found no JSON
+                        print("❌ [ERROR] No JSON object found in the response.")
+                        st.error("Failed to parse the response as JSON. The model did not return a valid JSON object.")
+                        st.info(f"⏱️ **Attempted in:** {elapsed_time:.2f} seconds")
+                        st.text_area("Raw Model Response", response_text, height=200)
             except Exception as e:
                  print(f"❌ [ERROR] An unexpected error occurred on the frontend: {e}")
                  st.error(f"An unexpected error occurred: {e}")
