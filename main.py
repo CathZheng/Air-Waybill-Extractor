@@ -331,16 +331,6 @@ if st.button("✨ Extract Information"):
                     print("✅ [LOG] JSON parsing successful. Displaying results.")
                     st.success("✅ Extraction Complete!")
                     st.info(f"⏱️ **Processing Time:** {elapsed_time:.2f} seconds")
-                    
-                    # --- All code that uses 'data' is now inside this 'if' block ---
-                    display_awb_data(data)
-                    
-                    if show_raw_json:
-                        st.markdown("---")
-                        st.markdown("### 🔍 Raw JSON Data")
-                        with st.expander("Click to view raw JSON"):
-                            st.json(data)
-                    
                     if download_json:
                         st.markdown("---")
                         json_str_for_download = json.dumps(data, indent=2)
@@ -350,6 +340,14 @@ if st.button("✨ Extract Information"):
                             file_name=f"awb_data_{data.get('Air Waybill Number', 'unknown')}.json",
                             mime="application/json"
                         )
+                    # --- All code that uses 'data' is now inside this 'if' block ---
+                    display_awb_data(data)
+                    
+                    if show_raw_json:
+                        st.markdown("---")
+                        st.markdown("### 🔍 Raw JSON Data")
+                        with st.expander("Click to view raw JSON"):
+                            st.json(data)
                     
                 else:
                     # Handle the case where the regex found no JSON
