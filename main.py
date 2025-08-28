@@ -6,7 +6,7 @@ from google import genai
 from google.genai import types
 import os 
 import time # To add a timer and timestamps
-
+import re
 # --- Backend Function ---
 # This function encapsulates your original logic.
 def extract_awb_data(pdf_bytes, api_key):
@@ -322,8 +322,10 @@ if st.button("✨ Extract Information"):
             
             print("[LOG] Attempting to parse API response as JSON...")
             try:
-                clean_response = response_text.strip().replace("```json", "").replace("```", "")
-                data = json.loads(clean_response)
+                json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+                if json_match:
+                    json_str = json_match.group(0)
+                    data = json.loads(json_str)
                 
                 print("✅ [LOG] JSON parsing successful. Displaying results.")
                 st.success("✅ Extraction Complete!")
