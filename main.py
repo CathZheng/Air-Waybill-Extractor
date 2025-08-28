@@ -6,7 +6,7 @@ from google import genai
 from google.genai import types
 import os 
 import time # To add a timer and timestamps
-import re
+import re 
 # --- Backend Function ---
 # This function encapsulates your original logic.
 def extract_awb_data(pdf_bytes, api_key):
