@@ -351,12 +351,12 @@ if st.button("✨ Extract Information"):
                             mime="application/json"
                         )
                     
-                    else:
-                        # Handle the case where the regex found no JSON
-                        print("❌ [ERROR] No JSON object found in the response.")
-                        st.error("Failed to parse the response as JSON. The model did not return a valid JSON object.")
-                        st.info(f"⏱️ **Attempted in:** {elapsed_time:.2f} seconds")
-                        st.text_area("Raw Model Response", response_text, height=200)
+                else:
+                    # Handle the case where the regex found no JSON
+                    print("❌ [ERROR] No JSON object found in the response.")
+                    st.error("Failed to parse the response as JSON. The model did not return a valid JSON object.")
+                    st.info(f"⏱️ **Attempted in:** {elapsed_time:.2f} seconds")
+                    st.text_area("Raw Model Response", response_text, height=200)
             except Exception as e:
                  print(f"❌ [ERROR] An unexpected error occurred on the frontend: {e}")
                  st.error(f"An unexpected error occurred: {e}")
