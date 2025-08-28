@@ -301,7 +301,7 @@ with st.sidebar:
     download_json = st.checkbox("Enable JSON Download", value=True)
 
 uploaded_file = st.file_uploader("Choose an Air Waybill PDF file", type="pdf")
-api_key = "AIzaSyDgCVIr0kypPnv5KKmR3qWHtYt8UuxHNmc"
+api_key = st.secrets["GOOGLE_API_KEY"]
 if st.button("✨ Extract Information"):
     print(f"\n[LOG] {time.ctime()}: 'Extract Information' button clicked.")
     if uploaded_file is not None and api_key:
