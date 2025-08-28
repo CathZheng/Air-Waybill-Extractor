@@ -3,3 +3,4 @@ google-auth==2.40.3
 streamlit ==1.49.0
 pdf2image==1.17.0
 poppler-utils
+python-poppler
